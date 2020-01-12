@@ -19,6 +19,8 @@ namespace Microsoft.DotNet.GenAPI
 {
     internal partial class Program
     {
+        private const string InternalsVisibleTypeName = "System.Runtime.CompilerServices.InternalsVisibleToAttribute";
+
         private static int Main(string[] args)
         {
             var app = new CommandLineApplication
@@ -98,8 +100,7 @@ namespace Microsoft.DotNet.GenAPI
                                 }
 
                                 var includeInternals = respectInternals.HasValue() &&
-                                    assembly.Attributes.HasAttributeOfType(
-                                        "System.Runtime.CompilerServices.InternalsVisibleToAttribute");
+                                    assembly.Attributes.HasAttributeOfType(InternalsVisibleTypeName);
                                 writer = GetWriter(output, syntaxWriter, includeInternals);
                                 writer.WriteAssemblies(new IAssembly[] { assembly });
                             }
@@ -127,8 +128,7 @@ namespace Microsoft.DotNet.GenAPI
                             }
 
                             var includeInternals = respectInternals.HasValue() &&
-                                assemblies.Any(assembly => assembly.Attributes.HasAttributeOfType(
-                                    "System.Runtime.CompilerServices.InternalsVisibleToAttribute"));
+                                assemblies.Any(assembly => assembly.Attributes.HasAttributeOfType(InternalsVisibleTypeName));
                             writer = GetWriter(output, syntaxWriter, includeInternals);
                             writer.WriteAssemblies(assemblies);
                         }
